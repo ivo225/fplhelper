@@ -3,32 +3,93 @@
 @tailwind utilities;
 
 :root {
-  --primary: #2ecc71;
-  --navbar: #37003c;
+  /* Official FPL Colors */
+  --fpl-purple-dark: #380140;
+  --fpl-purple: #883DF2;
+  --fpl-blue: #578BF2;
+  --fpl-cyan: #0FF2F2;
+  
+  /* Derived UI Colors */
+  --primary: var(--fpl-purple);
+  --navbar: var(--fpl-purple-dark);
   --danger: #ff3860;
-  --data-blue: #0073e6;
-  --card-bg: #50006a;
+  --data-blue: var(--fpl-blue);
+  --card-bg: var(--fpl-purple-dark);
+  
+  /* Text and Background Colors */
   --foreground-light: #f8f9fa;
-  --foreground-dark: #e2e8f0;
+  --foreground-dark: #37003c;
   --background-light: #ffffff;
   --background-dark: #1c1c1c;
+  
+  /* Gradients */
+  --gradient-primary: linear-gradient(to right, var(--fpl-purple), var(--fpl-blue), var(--fpl-cyan));
+  --gradient-border: linear-gradient(to right, var(--fpl-purple-dark), var(--fpl-purple), var(--fpl-blue));
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    --foreground: var(--foreground-dark);
-    --background: var(--background-light);
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground: var(--foreground-light);
-    --background: var(--background-dark);
-  }
+/* Force light mode for white background and dark text as requested */
+:root {
+  --foreground: var(--foreground-dark);
+  --background: var(--background-light);
 }
 
 body {
   color: var(--foreground);
   background-color: var(--background);
+}
+
+/* Utility classes for gradient elements */
+@layer utilities {
+  .bg-fpl-gradient {
+    @apply bg-gradient-to-r from-[var(--fpl-purple)] via-[var(--fpl-blue)] to-[var(--fpl-cyan)];
+  }
+  
+  .border-fpl-gradient {
+    position: relative;
+    border-radius: 0.5rem;
+    padding: 2px;
+    background: linear-gradient(to right, #380140, #883DF2, #578BF2);
+  }
+  
+  .border-fpl-gradient > * {
+    background: white;
+    border-radius: 0.375rem;
+    height: 100%;
+  }
+  
+  .text-fpl-gradient {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-[var(--fpl-purple-dark)] via-[var(--fpl-purple)] to-[var(--fpl-blue)];
+  }
+}
+
+@layer components {
+  /* Table styling with FPL colors */
+  table {
+    @apply w-full border-collapse;
+  }
+  
+  table thead tr {
+    @apply bg-gradient-to-r from-[var(--fpl-purple-dark)] to-[var(--fpl-purple)] text-white;
+  }
+  
+  table th {
+    @apply py-3 px-4 text-left font-medium;
+  }
+  
+  table tbody tr {
+    @apply text-[var(--fpl-purple-dark)] border-b border-gray-200;
+  }
+  
+  table tbody tr:hover {
+    @apply bg-gray-50;
+  }
+  
+  table td {
+    @apply py-3 px-4;
+  }
+  
+  /* Player, team and fixture text colors */
+  .player-name, .team-name, .fixture-text {
+    @apply text-[var(--fpl-purple-dark)];
+  }
 }

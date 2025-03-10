@@ -22,12 +22,12 @@ export default function Navbar() {
   ];
 
   return (
-    <nav className="bg-white dark:bg-gray-900 shadow-md">
+    <nav className="bg-[var(--fpl-purple-dark)] text-white shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
             <div className="flex-shrink-0 flex items-center">
-              <Link href="/" className="text-xl font-bold text-[var(--primary)] dark:text-white">
+              <Link href="/" className="text-xl font-bold text-white">
                 FPL Analytics
               </Link>
             </div>
@@ -38,8 +38,8 @@ export default function Navbar() {
                   href={link.href}
                   className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
                     pathname === link.href
-                      ? 'border-[var(--primary)] text-gray-900 dark:text-white'
-                      : 'border-transparent text-gray-500 dark:text-gray-300 hover:text-gray-700 dark:hover:text-gray-200 hover:border-gray-300 dark:hover:border-gray-700'
+                      ? 'border-[var(--fpl-cyan)] text-white'
+                      : 'border-transparent text-gray-300 hover:text-white hover:border-[var(--fpl-blue)]'
                   }`}
                 >
                   {link.label}
@@ -51,7 +51,7 @@ export default function Navbar() {
             <button
               onClick={toggleMenu}
               type="button"
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-800 dark:hover:text-gray-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[var(--primary)]"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-300 hover:text-white hover:bg-[var(--fpl-purple)] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[var(--fpl-cyan)]"
               aria-expanded="false"
             >
               <span className="sr-only">Open main menu</span>
@@ -88,8 +88,8 @@ export default function Navbar() {
               href={link.href}
               className={`block pl-3 pr-4 py-2 border-l-4 text-base font-medium ${
                 pathname === link.href
-                  ? 'border-[var(--primary)] text-[var(--primary)] dark:text-white bg-[var(--primary-light)] dark:bg-gray-800'
-                  : 'border-transparent text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 hover:border-gray-300 dark:hover:border-gray-700 hover:text-gray-700 dark:hover:text-gray-200'
+                  ? 'border-[var(--fpl-cyan)] text-white bg-[var(--fpl-purple)]'
+                  : 'border-transparent text-gray-300 hover:bg-[var(--fpl-purple-dark)] hover:border-[var(--fpl-blue)] hover:text-white'
               }`}
             >
               {link.label}
@@ -99,4 +99,4 @@ export default function Navbar() {
       </div>
     </nav>
   );
-} 
+}

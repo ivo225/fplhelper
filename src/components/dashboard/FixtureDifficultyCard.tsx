@@ -66,7 +66,7 @@ export default function FixtureDifficultyCard() {
     return (
       <Card title="Fixture Difficulty Ratings" className="h-full">
         <div className="flex justify-center items-center h-64">
-          <p className="text-gray-500 dark:text-gray-400">Loading fixture data...</p>
+          <p className="text-gray-500">Loading fixture data...</p>
         </div>
       </Card>
     );
@@ -91,15 +91,15 @@ export default function FixtureDifficultyCard() {
         <table className="min-w-full">
           <thead>
             <tr>
-              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Team</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Next 5</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Avg</th>
+              <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider">Team</th>
+              <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider">Next 5</th>
+              <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider">Avg</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+          <tbody className="divide-y divide-gray-200">
             {teamsToDisplay.map((team) => (
-              <tr key={team.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
-                <td className="px-3 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+              <tr key={team.id} className="hover:bg-gray-50">
+                <td className="px-3 py-3 whitespace-nowrap text-sm font-medium text-[var(--fpl-purple-dark)]">
                   {team.team}
                 </td>
                 <td className="px-3 py-3 whitespace-nowrap">
@@ -113,11 +113,11 @@ export default function FixtureDifficultyCard() {
                           {fixture.opponent}
                         </div>
                         <div className="flex flex-col items-center">
-                          <span className="text-xs text-gray-500 dark:text-gray-400">
+                          <span className="text-xs text-[var(--fpl-purple-dark)]">
                             {fixture.isHome ? 'H' : 'A'}
                           </span>
                           {fixture.event && (
-                            <span className="text-xs text-gray-400 dark:text-gray-500">
+                            <span className="text-xs text-gray-500">
                               {fixture.event}
                             </span>
                           )}
@@ -126,7 +126,7 @@ export default function FixtureDifficultyCard() {
                     ))}
                   </div>
                 </td>
-                <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                <td className="px-3 py-3 whitespace-nowrap text-sm text-[var(--fpl-purple-dark)]">
                   {team.averageDifficulty.toFixed(1)}
                 </td>
               </tr>
@@ -139,11 +139,11 @@ export default function FixtureDifficultyCard() {
       <div className="mt-4 text-center">
         <button 
           onClick={toggleExpanded}
-          className="px-4 py-2 text-sm font-medium text-[var(--primary)] hover:text-[#27ae60] focus:outline-none transition-colors"
+          className="bg-fpl-gradient px-4 py-2 text-sm font-medium text-white hover:opacity-90 rounded-md focus:outline-none transition-all"
         >
           {expanded ? 'Show Less Teams' : `Show All Teams (${fixtures.length})`}
         </button>
       </div>
     </Card>
   );
-} 
+}

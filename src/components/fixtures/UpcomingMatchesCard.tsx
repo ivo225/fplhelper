@@ -75,7 +75,7 @@ export default function UpcomingMatchesCard() {
     return (
       <Card title="Upcoming Matches" className="h-full">
         <div className="flex justify-center items-center h-64">
-          <p className="text-gray-500 dark:text-gray-400">Loading match data...</p>
+          <p className="text-gray-500">Loading match data...</p>
         </div>
       </Card>
     );
@@ -99,14 +99,14 @@ export default function UpcomingMatchesCard() {
   return (
     <Card title="Upcoming Matches" className="h-full">
       <div className="mb-4">
-        <label htmlFor="gameweek-select" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+        <label htmlFor="gameweek-select" className="block text-sm font-medium text-[var(--fpl-purple-dark)] mb-1">
           Select Gameweek:
         </label>
         <select
           id="gameweek-select"
           value={selectedGameweek || ''}
           onChange={handleGameweekChange}
-          className="block w-full max-w-xs px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary)] focus:border-[var(--primary)] bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+          className="block w-full max-w-xs px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--fpl-purple)] focus:border-[var(--fpl-purple)] bg-white text-[var(--fpl-purple-dark)]"
         >
           {gameweeks.map(gw => (
             <option key={gw} value={gw}>
@@ -117,40 +117,40 @@ export default function UpcomingMatchesCard() {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+        <table className="min-w-full divide-y divide-gray-200">
           <thead>
             <tr>
-              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Date & Time</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Home Team</th>
-              <th className="px-3 py-2 text-center text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">vs</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Away Team</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">Difficulty (H/A)</th>
+              <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider">Date & Time</th>
+              <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider">Home Team</th>
+              <th className="px-3 py-2 text-center text-xs font-medium uppercase tracking-wider">vs</th>
+              <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider">Away Team</th>
+              <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider">Difficulty (H/A)</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+          <tbody className="divide-y divide-gray-200">
             {filteredMatches.length > 0 ? (
               filteredMatches.map((match) => (
-                <tr key={match.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
-                  <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                <tr key={match.id} className="hover:bg-gray-50">
+                  <td className="px-3 py-3 whitespace-nowrap text-sm text-[var(--fpl-purple-dark)]">
                     {formatDate(match.kickoff_time)}
                   </td>
-                  <td className="px-3 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                  <td className="px-3 py-3 whitespace-nowrap text-sm font-medium text-[var(--fpl-purple-dark)]">
                     {match.team_h_name}
                   </td>
-                  <td className="px-3 py-3 whitespace-nowrap text-sm text-center text-gray-500 dark:text-gray-400">
+                  <td className="px-3 py-3 whitespace-nowrap text-sm text-center text-[var(--fpl-purple)]">
                     vs
                   </td>
-                  <td className="px-3 py-3 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                  <td className="px-3 py-3 whitespace-nowrap text-sm font-medium text-[var(--fpl-purple-dark)]">
                     {match.team_a_name}
                   </td>
-                  <td className="px-3 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <td className="px-3 py-3 whitespace-nowrap text-sm text-[var(--fpl-purple-dark)]">
                     {match.team_h_difficulty} / {match.team_a_difficulty}
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={5} className="px-3 py-3 text-center text-sm text-gray-500 dark:text-gray-400">
+                <td colSpan={5} className="px-3 py-3 text-center text-sm text-[var(--fpl-purple-dark)]">
                   No matches scheduled for this gameweek
                 </td>
               </tr>
@@ -160,4 +160,4 @@ export default function UpcomingMatchesCard() {
       </div>
     </Card>
   );
-} 
+}

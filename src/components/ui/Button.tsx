@@ -23,17 +23,38 @@ export default function Button({
   type = 'button',
   fullWidth = false,
 }: ButtonProps) {
-  const baseClasses = 'inline-flex items-center justify-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors';
+  const baseClasses = 'inline-flex items-center justify-center px-4 py-2 border rounded-md shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all';
   
   const variantClasses = {
-    primary: 'bg-[var(--primary)] hover:bg-[#27ae60] text-white border-transparent focus:ring-[var(--primary)]',
-    secondary: 'bg-[var(--data-blue)] hover:bg-[#0062c4] text-white border-transparent focus:ring-[var(--data-blue)]',
-    danger: 'bg-[var(--danger)] hover:bg-[#e03453] text-white border-transparent focus:ring-[var(--danger)]',
-    outline: 'bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-200 border-gray-300 dark:border-gray-600 focus:ring-gray-500',
+    primary: 'bg-fpl-gradient hover:opacity-90 text-white border-transparent focus:ring-[var(--fpl-purple)]',
+    secondary: 'relative p-[2px] bg-gradient-to-r from-[var(--fpl-purple-dark)] via-[var(--fpl-purple)] to-[var(--fpl-blue)] rounded-md',
+    danger: 'bg-[var(--danger)] hover:opacity-90 text-white border-transparent focus:ring-[var(--danger)]',
+    outline: 'relative p-[1px] bg-gradient-to-r from-[var(--fpl-purple-dark)] via-[var(--fpl-purple)] to-[var(--fpl-blue)] rounded-md',
+  };
+
+  // Inner classes for secondary and outline buttons
+  const innerClasses = {
+    secondary: 'bg-white text-[var(--fpl-purple-dark)] rounded-[3px] flex items-center justify-center w-full h-full px-4 py-2 hover:bg-gray-50',
+    outline: 'bg-white text-[var(--fpl-purple-dark)] rounded-[3px] flex items-center justify-center w-full h-full px-4 py-2 hover:bg-gray-50',
   };
 
   const widthClass = fullWidth ? 'w-full' : '';
   const disabledClass = disabled ? 'opacity-50 cursor-not-allowed' : '';
+
+  if (variant === 'secondary' || variant === 'outline') {
+    return (
+      <button
+        type={type}
+        className={`${baseClasses} ${variantClasses[variant]} ${widthClass} ${disabledClass} ${className}`}
+        onClick={onClick}
+        disabled={disabled}
+      >
+        <span className={innerClasses[variant]}>
+          {children}
+        </span>
+      </button>
+    );
+  }
 
   return (
     <button
@@ -45,4 +66,4 @@ export default function Button({
       {children}
     </button>
   );
-} 
+}

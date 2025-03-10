@@ -220,8 +220,8 @@ export default function PlayerStatsTable() {
           disabled={currentPage === 1}
           className={`px-3 py-1 rounded ${
             currentPage === 1
-              ? 'bg-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:text-gray-400'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
+              ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+              : 'bg-gray-200 text-[var(--fpl-purple-dark)] hover:bg-gray-300'
           }`}
         >
           Previous
@@ -236,8 +236,8 @@ export default function PlayerStatsTable() {
               onClick={() => handlePageChange(number)}
               className={`px-3 py-1 rounded ${
                 currentPage === number
-                  ? 'bg-blue-500 text-white dark:bg-blue-600'
-                  : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
+                  ? 'bg-fpl-gradient text-white'
+                  : 'bg-gray-200 text-[var(--fpl-purple-dark)] hover:bg-gray-300'
               }`}
             >
               {number}
@@ -250,8 +250,8 @@ export default function PlayerStatsTable() {
           disabled={currentPage === totalPages || totalPages === 0}
           className={`px-3 py-1 rounded ${
             currentPage === totalPages || totalPages === 0
-              ? 'bg-gray-200 text-gray-500 cursor-not-allowed dark:bg-gray-700 dark:text-gray-400'
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600'
+              ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
+              : 'bg-gray-200 text-[var(--fpl-purple-dark)] hover:bg-gray-300'
           }`}
         >
           Next
@@ -264,7 +264,7 @@ export default function PlayerStatsTable() {
     return (
       <Card title="Player Statistics" className="h-full">
         <div className="flex justify-center items-center h-64">
-          <p className="text-gray-500 dark:text-gray-400">Loading player data...</p>
+          <p className="text-gray-500">Loading player data...</p>
         </div>
       </Card>
     );
@@ -285,7 +285,7 @@ export default function PlayerStatsTable() {
       <div className="mb-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Position Filter */}
         <div>
-          <label htmlFor="position-filter" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label htmlFor="position-filter" className="block text-sm font-medium text-[var(--fpl-purple-dark)] mb-1">
             Position:
           </label>
           <select
@@ -293,7 +293,7 @@ export default function PlayerStatsTable() {
             name="position"
             value={filters.position}
             onChange={handleFilterChange}
-            className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary)] focus:border-[var(--primary)] bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+            className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--fpl-purple)] focus:border-[var(--fpl-purple)] bg-white text-[var(--fpl-purple-dark)]"
           >
             <option value="ALL">All Positions</option>
             <option value="GK">Goalkeepers</option>
@@ -305,7 +305,7 @@ export default function PlayerStatsTable() {
 
         {/* Team Filter */}
         <div>
-          <label htmlFor="team-filter" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label htmlFor="team-filter" className="block text-sm font-medium text-[var(--fpl-purple-dark)] mb-1">
             Team:
           </label>
           <select
@@ -313,7 +313,7 @@ export default function PlayerStatsTable() {
             name="team"
             value={filters.team}
             onChange={handleFilterChange}
-            className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary)] focus:border-[var(--primary)] bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+            className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--fpl-purple)] focus:border-[var(--fpl-purple)] bg-white text-[var(--fpl-purple-dark)]"
           >
             <option value="ALL">All Teams</option>
             {teams.map(team => (
@@ -326,7 +326,7 @@ export default function PlayerStatsTable() {
 
         {/* Price Range Filter */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className="block text-sm font-medium text-[var(--fpl-purple-dark)] mb-1">
             Price Range (£m):
           </label>
           <div className="flex items-center space-x-2">
@@ -338,9 +338,9 @@ export default function PlayerStatsTable() {
               min="0"
               max="15"
               step="0.1"
-              className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary)] focus:border-[var(--primary)] bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--fpl-purple)] focus:border-[var(--fpl-purple)] bg-white text-[var(--fpl-purple-dark)]"
             />
-            <span className="text-gray-500">to</span>
+            <span className="text-[var(--fpl-purple-dark)]">to</span>
             <input
               type="number"
               name="priceMax"
@@ -349,14 +349,14 @@ export default function PlayerStatsTable() {
               min="0"
               max="15"
               step="0.1"
-              className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary)] focus:border-[var(--primary)] bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--fpl-purple)] focus:border-[var(--fpl-purple)] bg-white text-[var(--fpl-purple-dark)]"
             />
           </div>
         </div>
 
         {/* Ownership Range Filter */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+          <label className="block text-sm font-medium text-[var(--fpl-purple-dark)] mb-1">
             Ownership Range (%):
           </label>
           <div className="flex items-center space-x-2">
@@ -367,9 +367,9 @@ export default function PlayerStatsTable() {
               onChange={handleFilterChange}
               min="0"
               max="100"
-              className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary)] focus:border-[var(--primary)] bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--fpl-purple)] focus:border-[var(--fpl-purple)] bg-white text-[var(--fpl-purple-dark)]"
             />
-            <span className="text-gray-500">to</span>
+            <span className="text-[var(--fpl-purple-dark)]">to</span>
             <input
               type="number"
               name="ownershipMax"
@@ -377,142 +377,142 @@ export default function PlayerStatsTable() {
               onChange={handleFilterChange}
               min="0"
               max="100"
-              className="block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-[var(--primary)] focus:border-[var(--primary)] bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
+              className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-[var(--fpl-purple)] focus:border-[var(--fpl-purple)] bg-white text-[var(--fpl-purple-dark)]"
             />
           </div>
         </div>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-          <thead className="bg-gray-50 dark:bg-gray-800">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead>
             <tr>
               <th 
-                className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+                className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSortChange('name')}
               >
                 Player {getSortIndicator('name')}
               </th>
               <th 
-                className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+                className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSortChange('team')}
               >
                 Team {getSortIndicator('team')}
               </th>
               <th 
-                className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+                className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSortChange('position')}
               >
                 Pos {getSortIndicator('position')}
               </th>
               <th 
-                className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+                className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSortChange('price')}
               >
                 Price {getSortIndicator('price')}
               </th>
               <th 
-                className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+                className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSortChange('total_points')}
               >
                 Pts {getSortIndicator('total_points')}
               </th>
               <th 
-                className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+                className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSortChange('form')}
               >
                 Form {getSortIndicator('form')}
               </th>
               <th 
-                className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+                className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSortChange('minutes')}
               >
                 Mins {getSortIndicator('minutes')}
               </th>
               <th 
-                className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+                className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSortChange('goals_scored')}
               >
                 G {getSortIndicator('goals_scored')}
               </th>
               <th 
-                className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+                className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSortChange('assists')}
               >
                 A {getSortIndicator('assists')}
               </th>
               <th 
-                className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+                className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSortChange('xG')}
               >
                 xG {getSortIndicator('xG')}
               </th>
               <th 
-                className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+                className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSortChange('xA')}
               >
                 xA {getSortIndicator('xA')}
               </th>
               <th 
-                className="px-3 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer"
+                className="px-3 py-3 text-left text-xs font-medium uppercase tracking-wider cursor-pointer"
                 onClick={() => handleSortChange('selected_by_percent')}
               >
                 Owned {getSortIndicator('selected_by_percent')}
               </th>
             </tr>
           </thead>
-          <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
+          <tbody className="bg-white divide-y divide-gray-200">
             {displayedPlayers.length > 0 ? (
               displayedPlayers.map((player) => (
-                <tr key={player.id} className="hover:bg-gray-50 dark:hover:bg-gray-800">
-                  <td className="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                <tr key={player.id} className="hover:bg-gray-50">
+                  <td className="px-3 py-2 whitespace-nowrap text-sm font-medium text-[var(--fpl-purple-dark)]">
                     {player.name}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <td className="px-3 py-2 whitespace-nowrap text-sm text-[var(--fpl-purple-dark)]">
                     {player.team}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <td className="px-3 py-2 whitespace-nowrap text-sm">
                     <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${
-                      player.position === 'GK' ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200' :
-                      player.position === 'DEF' ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200' :
-                      player.position === 'MID' ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200' :
-                      'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+                      player.position === 'GK' ? 'bg-yellow-100 text-yellow-800' :
+                      player.position === 'DEF' ? 'bg-blue-100 text-blue-800' :
+                      player.position === 'MID' ? 'bg-green-100 text-green-800' :
+                      'bg-red-100 text-red-800'
                     }`}>
                       {player.position}
                     </span>
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <td className="px-3 py-2 whitespace-nowrap text-sm text-[var(--fpl-purple-dark)]">
                     £{player.price.toFixed(1)}m
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                  <td className="px-3 py-2 whitespace-nowrap text-sm font-medium text-[var(--fpl-purple-dark)]">
                     {player.total_points}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <td className="px-3 py-2 whitespace-nowrap text-sm text-[var(--fpl-purple-dark)]">
                     {player.form}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <td className="px-3 py-2 whitespace-nowrap text-sm text-[var(--fpl-purple-dark)]">
                     {player.minutes}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <td className="px-3 py-2 whitespace-nowrap text-sm text-[var(--fpl-purple-dark)]">
                     {player.goals_scored}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <td className="px-3 py-2 whitespace-nowrap text-sm text-[var(--fpl-purple-dark)]">
                     {player.assists}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <td className="px-3 py-2 whitespace-nowrap text-sm text-[var(--fpl-purple-dark)]">
                     {player.xG?.toFixed(2) || '0.00'}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <td className="px-3 py-2 whitespace-nowrap text-sm text-[var(--fpl-purple-dark)]">
                     {player.xA?.toFixed(2) || '0.00'}
                   </td>
-                  <td className="px-3 py-2 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
+                  <td className="px-3 py-2 whitespace-nowrap text-sm text-[var(--fpl-purple-dark)]">
                     {player.selected_by_percent.toFixed(1)}%
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={12} className="px-3 py-3 text-center text-sm text-gray-500 dark:text-gray-400">
+                <td colSpan={12} className="px-3 py-3 text-center text-sm text-[var(--fpl-purple-dark)]">
                   No players match the selected filters
                 </td>
               </tr>
@@ -524,9 +524,9 @@ export default function PlayerStatsTable() {
       {/* Pagination controls */}
       {renderPaginationControls()}
       
-      <div className="mt-4 text-sm text-gray-500 dark:text-gray-400">
+      <div className="mt-4 text-sm text-[var(--fpl-purple-dark)]">
         <p>Showing {displayedPlayers.length} of {filteredPlayers.length} players (Page {currentPage} of {totalPages || 1})</p>
       </div>
     </Card>
   );
-} 
+}

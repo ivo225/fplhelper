@@ -3,7 +3,7 @@
 import React from 'react';
 import MainLayout from '@/components/layout/MainLayout';
 import UpcomingMatchesCard from '@/components/fixtures/UpcomingMatchesCard';
-import FixtureDifficultyRankingCard from '@/components/fixtures/FixtureDifficultyRankingCard';
+import FixtureDifficultyTable from '@/components/fixtures/FixtureDifficultyTable';
 
 export default function FixturesPage() {
   return (
@@ -16,9 +16,9 @@ export default function FixturesPage() {
         </div>
         
         <div className="grid grid-cols-1 gap-6">
-          <FixtureDifficultyRankingCard />
+          <FixtureDifficultyTable />
         </div>
       </div>
     </MainLayout>
   );
-} 
+}

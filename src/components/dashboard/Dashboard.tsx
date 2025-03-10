@@ -18,8 +18,8 @@ export default function Dashboard() {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Hero Section */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">FPL Analytics Dashboard</h1>
-        <p className="text-gray-600 dark:text-gray-300 mb-6">
+        <h1 className="text-3xl font-bold text-[var(--fpl-purple-dark)] mb-2">FPL Analytics Dashboard</h1>
+        <p className="text-gray-600 mb-6">
           Your ultimate Fantasy Premier League companion for data-driven decisions
         </p>
         <SearchBar 
@@ -58,4 +58,4 @@ export default function Dashboard() {
       </div>
     </div>
   );
-} 
+}

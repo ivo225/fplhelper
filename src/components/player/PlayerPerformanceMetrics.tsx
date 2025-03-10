@@ -144,7 +144,7 @@ export default function PlayerPerformanceMetrics() {
     return (
       <Card title="Performance Metrics" className="h-full">
         <div className="flex justify-center items-center h-64">
-          <p className="text-gray-500 dark:text-gray-400">Loading performance data...</p>
+          <p className="text-gray-500">Loading performance data...</p>
         </div>
       </Card>
     );
@@ -165,15 +165,15 @@ export default function PlayerPerformanceMetrics() {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Top Points Scorers */}
         <div>
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">Top Points</h3>
+          <h3 className="text-lg font-medium text-[var(--fpl-purple)] mb-3">Top Points</h3>
           <div className="space-y-3">
             {topPerformers.points.map((player, index) => (
               <div key={`points-${index}`} className="relative">
                 <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{player.name}</span>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{player.value}</span>
+                  <span className="text-sm font-medium text-[var(--fpl-purple-dark)]">{player.name}</span>
+                  <span className="text-sm font-medium text-[var(--fpl-purple-dark)]">{player.value}</span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                <div className="w-full bg-gray-200 rounded-full h-2.5">
                   <div 
                     className={`h-2.5 rounded-full ${player.color}`} 
                     style={{ width: `${(player.value / player.maxValue) * 100}%` }}
@@ -186,15 +186,15 @@ export default function PlayerPerformanceMetrics() {
 
         {/* Top Form Players */}
         <div>
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">Best Form</h3>
+          <h3 className="text-lg font-medium text-[var(--fpl-purple)] mb-3">Best Form</h3>
           <div className="space-y-3">
             {topPerformers.form.map((player, index) => (
               <div key={`form-${index}`} className="relative">
                 <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{player.name}</span>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{player.value.toFixed(1)}</span>
+                  <span className="text-sm font-medium text-[var(--fpl-purple-dark)]">{player.name}</span>
+                  <span className="text-sm font-medium text-[var(--fpl-purple-dark)]">{player.value.toFixed(1)}</span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                <div className="w-full bg-gray-200 rounded-full h-2.5">
                   <div 
                     className={`h-2.5 rounded-full ${player.color}`} 
                     style={{ width: `${(player.value / player.maxValue) * 100}%` }}
@@ -207,15 +207,15 @@ export default function PlayerPerformanceMetrics() {
 
         {/* Top ICT Index */}
         <div>
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">Highest ICT Index</h3>
+          <h3 className="text-lg font-medium text-[var(--fpl-purple)] mb-3">Highest ICT Index</h3>
           <div className="space-y-3">
             {topPerformers.ict.map((player, index) => (
               <div key={`ict-${index}`} className="relative">
                 <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{player.name}</span>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{player.value.toFixed(1)}</span>
+                  <span className="text-sm font-medium text-[var(--fpl-purple-dark)]">{player.name}</span>
+                  <span className="text-sm font-medium text-[var(--fpl-purple-dark)]">{player.value.toFixed(1)}</span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                <div className="w-full bg-gray-200 rounded-full h-2.5">
                   <div 
                     className={`h-2.5 rounded-full ${player.color}`} 
                     style={{ width: `${(player.value / player.maxValue) * 100}%` }}
@@ -228,15 +228,15 @@ export default function PlayerPerformanceMetrics() {
 
         {/* Best Value (Points per Million) */}
         <div>
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-3">Best Value (Pts/£m)</h3>
+          <h3 className="text-lg font-medium text-[var(--fpl-purple)] mb-3">Best Value (Pts/£m)</h3>
           <div className="space-y-3">
             {topPerformers.value.map((player, index) => (
               <div key={`value-${index}`} className="relative">
                 <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{player.name}</span>
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">{player.value.toFixed(1)}</span>
+                  <span className="text-sm font-medium text-[var(--fpl-purple-dark)]">{player.name}</span>
+                  <span className="text-sm font-medium text-[var(--fpl-purple-dark)]">{player.value.toFixed(1)}</span>
                 </div>
-                <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                <div className="w-full bg-gray-200 rounded-full h-2.5">
                   <div 
                     className={`h-2.5 rounded-full ${player.color}`} 
                     style={{ width: `${(player.value / player.maxValue) * 100}%` }}
@@ -248,7 +248,7 @@ export default function PlayerPerformanceMetrics() {
         </div>
       </div>
       
-      <div className="mt-6 text-sm text-gray-500 dark:text-gray-400">
+      <div className="mt-6 text-sm text-[var(--fpl-purple-dark)]">
         <div className="flex flex-wrap items-center gap-2">
           <span className="inline-flex items-center">
             <span className="inline-block w-3 h-3 bg-yellow-500 rounded-full mr-1"></span>
@@ -280,4 +280,4 @@ export default function PlayerPerformanceMetrics() {
       </div>
     </Card>
   );
-} 
+}
