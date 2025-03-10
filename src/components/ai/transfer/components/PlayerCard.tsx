@@ -13,6 +13,34 @@ export default function PlayerCard({ recommendation, type }: PlayerCardProps) {
   const player = recommendation.players;
   const isBuy = type === 'buy';
   
+  // Helper function to render fixture difficulty dots
+  const renderFixtureDifficulty = (fixtures: any[]) => {
+    if (!fixtures || fixtures.length === 0) return null;
+    
+    return (
+      <div className="mt-2">
+        <div className="text-xs text-gray-500 mb-1">Next fixtures:</div>
+        <div className="flex space-x-1">
+          {fixtures.slice(0, 5).map((fixture, index) => (
+            <div 
+              key={index}
+              className={`w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold ${
+                fixture.difficulty === 1 ? 'bg-green-500 text-white' :
+                fixture.difficulty === 2 ? 'bg-green-300 text-green-800' :
+                fixture.difficulty === 3 ? 'bg-gray-300 text-gray-800' :
+                fixture.difficulty === 4 ? 'bg-red-300 text-red-800' :
+                'bg-red-500 text-white'
+              }`}
+              title={`GW${fixture.event}: ${fixture.isHome ? 'Home' : 'Away'} (Difficulty: ${fixture.difficulty})`}
+            >
+              {fixture.difficulty}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+  
   return (
     <div className="mb-6 pb-6 border-b last:border-0">
       <div className="flex items-center mb-3">
@@ -33,8 +61,15 @@ export default function PlayerCard({ recommendation, type }: PlayerCardProps) {
           <div className="flex items-center text-sm text-gray-600">
             <span className="mr-2">{player.teams.short_name}</span>
             <span className="px-2 py-0.5 bg-gray-200 rounded text-xs text-gray-800">
-              {getPositionShort(player.position)}
+              {getPositionShort(player.element_type)}
             </span>
+            
+            {/* Show position priority badge if applicable */}
+            {recommendation.position_priority && (
+              <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-800 rounded text-xs">
+                Priority Position
+              </span>
+            )}
           </div>
         </div>
         
@@ -67,9 +102,62 @@ export default function PlayerCard({ recommendation, type }: PlayerCardProps) {
         </div>
       </div>
       
+      {/* Fixture Difficulty Section */}
+      {recommendation.upcoming_fixtures && (
+        <div className="mb-4 p-3 bg-gray-50 rounded-md">
+          {renderFixtureDifficulty(recommendation.upcoming_fixtures)}
+          
+          {/* Show fixture score if available */}
+          {recommendation.fixture_score !== undefined && (
+            <div className="mt-2">
+              <div className="text-xs text-gray-500">Fixture Difficulty Rating:</div>
+              <div className={`font-medium ${
+                recommendation.fixture_score < 2.5 ? 'text-green-600' : 
+                recommendation.fixture_score < 3.5 ? 'text-gray-800' : 'text-red-600'
+              }`}>
+                {recommendation.fixture_score.toFixed(1)}
+                <span className="text-xs text-gray-500 ml-1">(lower is better)</span>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+      
+      {/* Personalized Recommendation Section */}
       <div className="bg-white p-4 rounded-md border border-gray-200 shadow-sm">
         <h4 className="text-sm font-medium text-gray-500 mb-2">Reasoning</h4>
-        <p className="text-gray-900 text-base leading-relaxed">{recommendation.reasoning}</p>
+        
+        {/* If replacing a specific player, show that information */}
+        {recommendation.replacing_player && (
+          <div className="mb-2 p-2 bg-blue-50 rounded border border-blue-100">
+            <p className="text-blue-800 text-sm font-medium">
+              Recommended replacement for: {recommendation.replacing_player}
+              {recommendation.similarity_score !== undefined && (
+                <span className="ml-1 text-xs text-blue-600">
+                  (Similarity: {Math.round(recommendation.similarity_score * 100)}%)
+                </span>
+              )}
+            </p>
+          </div>
+        )}
+        
+        {/* Show personalized reason if available, otherwise fallback to general reasoning */}
+        <p className="text-gray-900 text-base leading-relaxed">
+          {recommendation.recommendation_reason || recommendation.reasoning}
+        </p>
+        
+        {/* Position-specific fixture bonus */}
+        {recommendation.position_fixture_bonus !== undefined && recommendation.position_fixture_bonus > 3 && (
+          <div className="mt-2 p-2 bg-green-50 rounded">
+            <p className="text-green-700 text-sm">
+              <span className="font-medium">✓</span> Favorable fixtures for {
+                player.element_type === 1 ? 'a goalkeeper' : 
+                player.element_type === 2 ? 'a defender' : 
+                player.element_type === 3 ? 'a midfielder' : 'a forward'
+              }
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

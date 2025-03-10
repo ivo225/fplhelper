@@ -7,6 +7,7 @@ export interface Player {
   web_name: string;
   team: number;
   position: number;
+  element_type: number;
   now_cost: number;
   form: string;
   points_per_game: string;
@@ -15,6 +16,21 @@ export interface Player {
     name: string;
     short_name: string;
   };
+  status?: string;
+  minutes?: number;
+  goals_scored?: number;
+  assists?: number;
+  clean_sheets?: number;
+  bonus?: number;
+  bps?: number;
+  ict_index?: number;
+}
+
+export interface Fixture {
+  opponent: number;
+  difficulty: number;
+  isHome: boolean;
+  event: number;
 }
 
 export interface TransferRecommendation {
@@ -26,6 +42,15 @@ export interface TransferRecommendation {
   confidence_score: number;
   created_at: string;
   players: Player;
+  
+  fixture_score?: number;
+  position_fixture_bonus?: number;
+  combined_score?: number;
+  upcoming_fixtures?: Fixture[];
+  position_priority?: boolean;
+  replacing_player?: string;
+  similarity_score?: number;
+  recommendation_reason?: string;
 }
 
 export interface TransferRecommendationsResponse {
@@ -47,11 +72,13 @@ export interface TeamPlayer {
     team_name: string;
     team_short_name: string;
     position: number;
+    element_type?: number;
     now_cost: number;
     form: string;
     points_per_game: string;
     total_points: number;
     selected_by_percent: string;
+    status?: string;
   };
   position: number;
   multiplier: number;

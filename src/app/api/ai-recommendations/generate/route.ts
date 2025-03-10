@@ -301,7 +301,7 @@ async function generateDifferentialRecommendations(supabase: any, gameweek: numb
     // Create prompt for Deepseek AI
     const prompt = `
       You are an expert Fantasy Premier League analyst. Based on the following player data for gameweek ${gameweek}, 
-      recommend the top 5 differential picks (players with less than 10% ownership) that could provide great value.
+      recommend the top 5 differential picks (players with less than 7% ownership) that could provide great value.
       Consider form, fixtures, and underlying statistics.
       
       Player data:
