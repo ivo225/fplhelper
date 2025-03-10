@@ -1,4 +1,22 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FPL Analytics
+
+A Fantasy Premier League (FPL) data analytics website built with Next.js and Tailwind CSS. This application provides data-driven insights for FPL managers to make better decisions.
+
+## Features
+
+- **Dashboard**: View top players, fixture difficulty, price changes, injury alerts, and differential picks
+- **Player Stats**: Detailed player statistics and performance metrics
+- **Team Insights**: Team form, upcoming fixtures, and win probabilities
+- **Fixtures & Schedule**: Upcoming matches and fixture difficulty rankings
+- **AI Recommendations**: Best captain choices, differentials, and transfer suggestions
+- **Live Updates**: Live match data and real-time FPL points tracking
+- **Community & Leaderboards**: Mini-league rankings and discussions
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org/) - React framework with App Router
+- [Tailwind CSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
 
 ## Getting Started
 
@@ -10,27 +28,26 @@ npm run dev
 yarn dev
 # or
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/app/` - Contains the main application code using the App Router
+- `src/components/` - Reusable React components
+  - `layout/` - Layout components like Navbar and MainLayout
+  - `ui/` - UI components like Button, Card, and SearchBar
+  - `dashboard/` - Dashboard-specific components
+  - `player/` - Player stats components
+  - `team/` - Team insights components
+  - `fixtures/` - Fixtures and schedule components
+  - `ai/` - AI recommendation components
+  - `live/` - Live updates components
+  - `community/` - Community and leaderboard components
+- `public/` - Static assets
+- `src/app/globals.css` - Global styles using Tailwind CSS
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+To learn more about Next.js, check out the [Next.js Documentation](https://nextjs.org/docs).
