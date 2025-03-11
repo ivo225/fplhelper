@@ -51,6 +51,10 @@ export interface TransferRecommendation {
   replacing_player?: string;
   similarity_score?: number;
   recommendation_reason?: string;
+  
+  is_premium_asset?: boolean;
+  adjusted_confidence?: number;
+  transfer_in_rating?: number;
 }
 
 export interface TransferRecommendationsResponse {

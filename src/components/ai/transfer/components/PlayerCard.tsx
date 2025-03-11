@@ -13,6 +13,9 @@ export default function PlayerCard({ recommendation, type }: PlayerCardProps) {
   const player = recommendation.players;
   const isBuy = type === 'buy';
   
+  // Use adjusted confidence if available, otherwise use normal confidence score
+  const confidenceScore = recommendation.adjusted_confidence || recommendation.confidence_score;
+  
   // Helper function to render fixture difficulty dots
   const renderFixtureDifficulty = (fixtures: any[]) => {
     if (!fixtures || fixtures.length === 0) return null;
@@ -70,6 +73,13 @@ export default function PlayerCard({ recommendation, type }: PlayerCardProps) {
                 Priority Position
               </span>
             )}
+            
+            {/* Premium asset badge */}
+            {recommendation.is_premium_asset && (
+              <span className="ml-2 px-2 py-0.5 bg-purple-100 text-purple-800 rounded text-xs">
+                Premium Asset
+              </span>
+            )}
           </div>
         </div>
         
@@ -77,7 +87,7 @@ export default function PlayerCard({ recommendation, type }: PlayerCardProps) {
           <div className="text-xl font-bold">{formatPrice(player.now_cost)}</div>
           <div className="text-xs flex justify-end items-center">
             <span className={`px-2 py-0.5 rounded-full ${isBuy ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
-              {Math.round(recommendation.confidence_score * 100)}% confidence
+              {Math.round(confidenceScore * 100)}% confidence
             </span>
           </div>
         </div>
@@ -137,6 +147,20 @@ export default function PlayerCard({ recommendation, type }: PlayerCardProps) {
                   (Similarity: {Math.round(recommendation.similarity_score * 100)}%)
                 </span>
               )}
+            </p>
+          </div>
+        )}
+        
+        {/* Premium asset warning for sell recommendations */}
+        {!isBuy && player.now_cost >= 60 && recommendation.fixture_score && recommendation.fixture_score < 3 && (
+          <div className="mb-2 p-2 bg-yellow-50 rounded border border-yellow-100">
+            <p className="text-yellow-800 text-sm flex items-start">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+              </svg>
+              <span>
+                Consider keeping due to favorable upcoming fixtures
+              </span>
             </p>
           </div>
         )}

@@ -1,6 +1,118 @@
 import { NextResponse } from 'next/server';
 import { getServiceSupabase } from '@/lib/supabase';
 
+// Define premium players by ID that should be handled specially
+const PREMIUM_DEFENDERS = [311, 359, 4, 22, 35, 171]; // TAA, Cancelo, Robertson, VVD, etc.
+const PREMIUM_MIDFIELDERS = [283, 233, 80, 427, 424, 391]; // Salah, Son, KDB, Saka, Foden, etc.
+const PREMIUM_FORWARDS = [351, 58, 541, 91]; // Haaland, Watkins, Nunez, etc.
+
+// Premium player price thresholds by position
+const PREMIUM_PRICE_THRESHOLDS = {
+  1: 55, // GK: 5.5+ million
+  2: 60, // DEF: 6.0+ million
+  3: 80, // MID: 8.0+ million
+  4: 75  // FWD: 7.5+ million
+};
+
+// Helper function to identify premium assets worth keeping
+const isPremiumAssetToKeep = (player: any, fixtures: any[], teams: any[]) => {
+  // Check if player is in our premium lists or meets price threshold
+  const isPremium = (
+    (player.element_type === 2 && PREMIUM_DEFENDERS.includes(player.id)) ||
+    (player.element_type === 3 && PREMIUM_MIDFIELDERS.includes(player.id)) ||
+    (player.element_type === 4 && PREMIUM_FORWARDS.includes(player.id)) ||
+    player.now_cost >= PREMIUM_PRICE_THRESHOLDS[player.element_type as 1|2|3|4]
+  );
+  
+  if (!isPremium) return false;
+  
+  // Get team's fixtures and calculate difficulty
+  const teamFixtures = fixtures
+    .filter((fixture: any) => 
+      (fixture.team_h === player.team || fixture.team_a === player.team) &&
+      !fixture.finished
+    )
+    .slice(0, 5); // Next 5 fixtures
+  
+  // Calculate average fixture difficulty (lower is better)
+  let totalDifficulty = 0;
+  let fixtureCount = 0;
+  
+  teamFixtures.forEach((fixture: any) => {
+    if (fixture.team_h === player.team) {
+      totalDifficulty += fixture.team_h_difficulty;
+      fixtureCount++;
+    } else if (fixture.team_a === player.team) {
+      totalDifficulty += fixture.team_a_difficulty;
+      fixtureCount++;
+    }
+  });
+  
+  const avgDifficulty = fixtureCount > 0 ? totalDifficulty / fixtureCount : 5;
+  
+  // Premium asset with good fixtures (difficulty < 3) should be kept
+  // regardless of current form
+  if (avgDifficulty < 3) {
+    return true;
+  }
+  
+  // If they have average fixtures but historically perform well (check points_per_game)
+  if (avgDifficulty < 3.5 && parseFloat(player.points_per_game) > 4.5) {
+    return true;
+  }
+  
+  // Find team strength - premium players from strong teams should be kept
+  const team = teams.find((t: any) => t.id === player.team);
+  if (team && team.strength >= 4) {
+    return true;
+  }
+  
+  return false;
+};
+
+// Helper function to calculate fixture difficulty for a team
+const calculateFixtureScore = (teamId: number, fixtures: any[]) => {
+  const teamFixtures = fixtures
+    .filter((fixture: any) => 
+      (fixture.team_h === teamId || fixture.team_a === teamId) &&
+      !fixture.finished
+    )
+    .slice(0, 5); // Next 5 fixtures
+  
+  let totalDifficulty = 0;
+  let fixtureCount = 0;
+  
+  teamFixtures.forEach((fixture: any) => {
+    if (fixture.team_h === teamId) {
+      totalDifficulty += fixture.team_h_difficulty;
+      fixtureCount++;
+    } else if (fixture.team_a === teamId) {
+      totalDifficulty += fixture.team_a_difficulty;
+      fixtureCount++;
+    }
+  });
+  
+  return fixtureCount > 0 ? totalDifficulty / fixtureCount : 5;
+};
+
+// Helper function to rate players for transfer in recommendations
+const ratePlayerForTransferIn = (player: any, fixtureScore: number) => {
+  // Convert form to number
+  const form = parseFloat(player.form || 0);
+  
+  // Points per game as a number
+  const ppg = parseFloat(player.points_per_game || 0);
+  
+  // Calculate value (points per million)
+  const value = ppg / (player.now_cost / 10);
+  
+  // Calculate fixture score (invert so higher is better)
+  const fixtureBonus = 5 - fixtureScore; // 0-5 scale where higher is better
+  
+  // Weighted score for transfer recommendation
+  return (form * 0.4) + (fixtureBonus * 0.4) + (value * 0.2);
+};
+
 export async function GET(request: Request) {
   try {
     const supabase = getServiceSupabase();
@@ -207,6 +319,9 @@ export async function GET(request: Request) {
           positionFixtureBonus = calculateForwardScoreChance(teamFixtures);
         }
         
+        // Calculate transfer in rating using our new function
+        const transferInRating = ratePlayerForTransferIn(player, fixtureScore);
+        
         // Combined score balancing form, fixtures, and expected points
         const combinedScore = 
           (player.form ? parseFloat(player.form) * 0.3 : 0) + 
@@ -223,6 +338,7 @@ export async function GET(request: Request) {
           fixture_score: fixtureScore,
           position_fixture_bonus: positionFixtureBonus,
           combined_score: combinedScore,
+          transfer_in_rating: transferInRating,
           upcoming_fixtures: teamFixtures.slice(0, 5)
         };
       }
@@ -270,6 +386,9 @@ export async function GET(request: Request) {
           return score + (fixture.difficulty * weight);
         }, 0) / (teamFixtures.length || 1);
         
+        // Check if this is a premium asset that should be kept despite form
+        const shouldKeep = isPremiumAssetToKeep(player, fixturesData.matches, teams);
+        
         return {
           ...rec,
           player_id: playerId, // Ensure player_id is always available
@@ -278,7 +397,10 @@ export async function GET(request: Request) {
             teams: team || { name: 'Unknown', short_name: 'UNK' }
           },
           fixture_score: fixtureScore,
-          upcoming_fixtures: teamFixtures.slice(0, 5)
+          upcoming_fixtures: teamFixtures.slice(0, 5),
+          is_premium_asset: shouldKeep,
+          // Adjust confidence score downward for premium assets with good fixtures
+          adjusted_confidence: shouldKeep ? rec.confidence_score * 0.5 : rec.confidence_score
         };
       }
       return rec;
@@ -324,9 +446,13 @@ export async function GET(request: Request) {
         const priorityPositions = Array.from(new Set([...weakPositions, ...injuredPositions]));
         
         // Filter sell recommendations to only include players in the user's team
-        sellRecommendations = sellRecommendations.filter((rec: any) => 
-          userPlayerIds.includes(rec.player_id)
-        );
+        // AND filter out premium assets with good fixtures
+        sellRecommendations = sellRecommendations
+          .filter((rec: any) => 
+            userPlayerIds.includes(rec.player_id) &&
+            !rec.is_premium_asset // Don't recommend selling premium assets
+          )
+          .sort((a: any, b: any) => b.adjusted_confidence - a.adjusted_confidence);
         
         // Filter buy recommendations to exclude players already in the user's team
         let filteredBuyRecommendations = buyRecommendations.filter((rec: any) => 
@@ -345,11 +471,15 @@ export async function GET(request: Request) {
         
         // For each player in the user's team, find similar players as potential replacements
         const positionSpecificRecommendations = userTeam.team.flatMap((pick: any) => {
-          // Only consider players that might need replacing
+          // Only consider players that might need replacing (not premium assets with good fixtures)
+          const playerFullData = players?.find((p: any) => p.id === pick.player.id);
+          const isPremium = playerFullData ? isPremiumAssetToKeep(playerFullData, fixturesData.matches, teams) : false;
+          
           if (
-            pick.player.status !== 'a' || 
+            (pick.player.status !== 'a' || 
             pick.player.form < 4 || 
-            sellRecommendations.some(sell => sell.player_id === pick.player.id)
+            sellRecommendations.some(sell => sell.player_id === pick.player.id)) &&
+            !isPremium // Don't suggest replacements for premium assets
           ) {
             // Find players in same position with better fixtures/form
             return filteredBuyRecommendations
@@ -522,6 +652,11 @@ function getRecommendationReason(currentPlayer: any, recommendedPlayer: any, fix
     parseFloat(recommendedPlayer.points_per_game) > parseFloat(currentPlayer.points_per_game)
   ) {
     reasons.push(`higher points per game (${recommendedPlayer.points_per_game} vs ${currentPlayer.points_per_game})`);
+  }
+  
+  // Special case for premium replacements
+  if (recommendedPlayer.now_cost >= 70) {
+    reasons.push("premium player with high point potential");
   }
   
   // If no specific reasons, give a generic one

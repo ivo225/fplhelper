@@ -10,4 +10,4 @@ export const supabase = createClient(supabaseUrl, supabaseKey);
 export function getServiceSupabase() {
   const serviceKey = process.env.SUPABASE_SERVICE_KEY || supabaseKey;
   return createClient(supabaseUrl, serviceKey);
-} 
+}
