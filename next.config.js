@@ -1,6 +1,21 @@
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+});
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ['resources.premierleague.com', 'platform-static-files.s3.amazonaws.com'],
+  },
+  experimental: {
+    serverActions: {
+      allowedOrigins: ['localhost:3000', 'fplhelper.vercel.app'],
+    },
+  },
+  async redirects() {
+    return [];
+  },
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if
@@ -15,4 +30,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig; 
+module.exports = withBundleAnalyzer(nextConfig); 

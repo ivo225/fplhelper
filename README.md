@@ -47,6 +47,33 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
   - `community/` - Community and leaderboard components
 - `public/` - Static assets
 - `src/app/globals.css` - Global styles using Tailwind CSS
+- `scripts/` - Utility scripts for data management
+  - `data/` - Scripts for syncing and generating FPL data
+  - `utils/` - Utility scripts for data validation and maintenance
+
+## Data Management Scripts
+
+The application includes several scripts to manage FPL data:
+
+### Main Update Script
+
+```bash
+# Update all FPL data (sync data, generate and validate captain recommendations)
+./scripts/update-fpl-data.js
+```
+
+### Individual Scripts
+
+```bash
+# Sync FPL data from the official API
+node scripts/data/sync-fpl-data.js
+
+# Generate captain recommendations
+node scripts/data/generate-captain-recommendations.js
+
+# Validate captain recommendations
+node scripts/utils/validate-captain-recommendations.js
+```
 
 ## Learn More
 

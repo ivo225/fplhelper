@@ -195,12 +195,102 @@ async function generateCaptainRecommendations(gameweek, players, fixtures, teams
   }
 }
 
+// Add this function after the generateCaptainRecommendations function
+async function validateRecommendations(recommendations, players) {
+  console.log('Validating captain recommendations...');
+  
+  const issues = [];
+  
+  for (const rec of recommendations) {
+    const player = players.find(p => p.id === rec.player_id);
+    
+    if (!player) {
+      issues.push({
+        player_id: rec.player_id,
+        issue: 'Player not found',
+        reasoning: rec.reasoning
+      });
+      continue;
+    }
+    
+    const playerName = player.web_name || `${player.first_name} ${player.second_name}`;
+    const playerLastName = player.second_name;
+    
+    // Check if player name appears in reasoning
+    const nameInReasoning = rec.reasoning.includes(playerName) || 
+                           rec.reasoning.includes(player.first_name) || 
+                           rec.reasoning.includes(playerLastName);
+    
+    if (!nameInReasoning) {
+      // Try to find which player the reasoning is actually about
+      const possiblePlayer = players.find(p => {
+        return rec.reasoning.includes(p.web_name) || 
+               rec.reasoning.includes(p.first_name) || 
+               rec.reasoning.includes(p.second_name);
+      });
+      
+      issues.push({
+        player_id: rec.player_id,
+        issue: 'Player name not in reasoning',
+        player_name: playerName,
+        reasoning: rec.reasoning,
+        possible_player: possiblePlayer ? 
+          { id: possiblePlayer.id, name: `${possiblePlayer.first_name} ${possiblePlayer.second_name}` } : 
+          null
+      });
+    }
+  }
+  
+  if (issues.length === 0) {
+    console.log('All captain recommendations are valid!');
+    return true;
+  } else {
+    console.log(`Found ${issues.length} issues with captain recommendations:`);
+    console.log(JSON.stringify(issues, null, 2));
+    
+    // Fix issues automatically
+    for (const issue of issues) {
+      if (issue.possible_player) {
+        console.log(`Fixing recommendation for player ${issue.player_id} to ${issue.possible_player.id}`);
+        
+        // Update the recommendation in the database
+        const { error } = await supabase
+          .from('captain_recommendations')
+          .update({ player_id: issue.possible_player.id })
+          .eq('player_id', issue.player_id)
+          .eq('gameweek', gameweek);
+        
+        if (error) {
+          console.error(`Error fixing recommendation:`, error);
+        } else {
+          console.log(`Successfully fixed recommendation`);
+        }
+      } else {
+        console.log(`Could not automatically fix issue with player ${issue.player_id}`);
+      }
+    }
+    
+    return false;
+  }
+}
+
+// Update the main function to include validation
 async function main() {
   try {
-    console.log('Starting captain recommendations generation for Gameweek 29...');
+    console.log('Starting captain recommendations generation...');
     
-    // Hardcode gameweek to 29
-    const currentGameweek = 29;
+    // Get current gameweek from the database
+    console.log('Fetching current gameweek...');
+    const { data: gameweekData, error: gameweekError } = await supabase
+      .from('current_gameweek')
+      .select('gameweek')
+      .single();
+    
+    if (gameweekError || !gameweekData) {
+      throw new Error(`Failed to fetch current gameweek: ${gameweekError?.message || 'No data'}`);
+    }
+    
+    const currentGameweek = gameweekData.gameweek;
     console.log(`Target gameweek: ${currentGameweek}`);
     
     // Get players data
@@ -239,7 +329,11 @@ async function main() {
     console.log(`Fetched ${teams.length} teams`);
     
     // Generate captain recommendations
-    await generateCaptainRecommendations(currentGameweek, players, fixtures, teams);
+    const recommendations = await generateCaptainRecommendations(currentGameweek, players, fixtures, teams);
+    
+    // After storing recommendations in Supabase
+    console.log('Validating recommendations...');
+    await validateRecommendations(recommendations, players);
     
     console.log('\n🎉 CAPTAIN RECOMMENDATIONS GENERATION COMPLETE 🎉');
     console.log(`✅ Recommendations have been generated for gameweek ${currentGameweek}`);

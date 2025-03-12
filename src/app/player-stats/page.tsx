@@ -1,24 +1,27 @@
-'use client';
-
 import React from 'react';
-import MainLayout from '@/components/layout/MainLayout';
-import PlayerStatsTable from '@/components/player/PlayerStatsTable';
-import PlayerPerformanceMetrics from '@/components/player/PlayerPerformanceMetrics';
+import type { Metadata } from 'next';
+// Import the client component
+import Content from './Content';
 
+// Add metadata for SEO
+export const metadata: Metadata = {
+  title: 'Player Statistics | FPL Analytics',
+  description: 'Comprehensive Fantasy Premier League player statistics, including form, points, goals, assists, and expected data (xG, xA) to help you make informed FPL decisions.',
+  keywords: 'FPL player stats, Fantasy Premier League statistics, player form, player points, xG, xA, goals, assists, FPL data',
+  openGraph: {
+    title: 'Player Statistics | FPL Analytics',
+    description: 'Comprehensive Fantasy Premier League player statistics, including form, points, goals, assists, and expected data (xG, xA).',
+    url: 'https://fplanalytics.com/player-stats',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Player Statistics | FPL Analytics',
+    description: 'Comprehensive Fantasy Premier League player statistics to help you make informed FPL decisions.',
+  },
+};
+
+// Server component that exports metadata
 export default function PlayerStatsPage() {
-  return (
-    <MainLayout>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Player Statistics</h1>
-        
-        <div className="grid grid-cols-1 gap-6 mb-6">
-          <PlayerPerformanceMetrics />
-        </div>
-        
-        <div className="grid grid-cols-1 gap-6">
-          <PlayerStatsTable />
-        </div>
-      </div>
-    </MainLayout>
-  );
+  return <Content />;
 } 

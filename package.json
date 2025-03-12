@@ -3,10 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "analyze": "ANALYZE=true next build",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "db:setup": "node scripts/run-script.js migrations/create-tables.js && node scripts/run-script.js data/migrate-fpl-data.js && node scripts/run-script.js migrations/create-transfer-table.js",
+    "db:sync": "node scripts/run-script.js data/sync-fpl-data.js && node scripts/run-script.js data/update-gameweek-flags.js",
+    "db:check": "node scripts/run-script.js utils/check-tables.js && node scripts/run-script.js utils/check-current-gameweek.js",
+    "generate:recommendations": "node scripts/run-script.js triggers/trigger-recommendations.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.1",
@@ -19,6 +24,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@next/bundle-analyzer": "^15.2.2",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
@@ -26,6 +32,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.2.1",
     "postcss": "^8.4.31",
+    "sharp": "^0.33.5",
     "tailwindcss": "^3.3.5",
     "typescript": "^5"
   }

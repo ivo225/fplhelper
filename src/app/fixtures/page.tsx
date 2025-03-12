@@ -1,24 +1,27 @@
-'use client';
-
 import React from 'react';
-import MainLayout from '@/components/layout/MainLayout';
-import UpcomingMatchesCard from '@/components/fixtures/UpcomingMatchesCard';
-import FixtureDifficultyTable from '@/components/fixtures/FixtureDifficultyTable';
+import type { Metadata } from 'next';
+// Import the client component
+import Content from './Content';
 
+// Add metadata for SEO
+export const metadata: Metadata = {
+  title: 'Fixtures & Schedule | FPL Analytics',
+  description: 'View upcoming Premier League fixtures, fixture difficulty ratings, and match predictions to plan your FPL transfers and captain picks strategically.',
+  keywords: 'FPL fixtures, Premier League schedule, fixture difficulty, FDR, upcoming matches, FPL planning, fixture analysis, team fixtures',
+  openGraph: {
+    title: 'Fixtures & Schedule | FPL Analytics',
+    description: 'View upcoming Premier League fixtures, fixture difficulty ratings, and match predictions to plan your FPL transfers.',
+    url: 'https://fplanalytics.com/fixtures',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Fixtures & Schedule | FPL Analytics',
+    description: 'View upcoming Premier League fixtures and fixture difficulty ratings to plan your FPL strategy.',
+  },
+};
+
+// Server component that exports metadata
 export default function FixturesPage() {
-  return (
-    <MainLayout>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Fixtures & Schedule</h1>
-        
-        <div className="grid grid-cols-1 gap-6 mb-6">
-          <UpcomingMatchesCard />
-        </div>
-        
-        <div className="grid grid-cols-1 gap-6">
-          <FixtureDifficultyTable />
-        </div>
-      </div>
-    </MainLayout>
-  );
+  return <Content />;
 }

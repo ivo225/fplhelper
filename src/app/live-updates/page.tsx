@@ -1,19 +1,27 @@
-'use client';
-
 import React from 'react';
-import MainLayout from '@/components/layout/MainLayout';
-import LiveUpdates from '@/components/live/LiveUpdates';
+import type { Metadata } from 'next';
+// Import the client component
+import Content from './Content';
 
+// Add metadata for SEO
+export const metadata: Metadata = {
+  title: 'Live Updates | FPL Analytics',
+  description: 'Get real-time Fantasy Premier League updates, including live match data, bonus points, and player performance tracking during gameweeks.',
+  keywords: 'FPL live updates, Fantasy Premier League live, live FPL scores, bonus points, live match data, real-time FPL, gameweek live, FPL tracking',
+  openGraph: {
+    title: 'Live Updates | FPL Analytics',
+    description: 'Get real-time Fantasy Premier League updates, including live match data, bonus points, and player performance tracking.',
+    url: 'https://fplanalytics.com/live-updates',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Live Updates | FPL Analytics',
+    description: 'Get real-time Fantasy Premier League updates, including live match data and bonus points.',
+  },
+};
+
+// Server component that exports metadata
 export default function LiveUpdatesPage() {
-  return (
-    <MainLayout>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Live Updates</h1>
-        
-        <div className="grid grid-cols-1 gap-6">
-          <LiveUpdates />
-        </div>
-      </div>
-    </MainLayout>
-  );
+  return <Content />;
 } 
