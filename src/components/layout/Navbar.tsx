@@ -18,7 +18,6 @@ export default function Navbar() {
     { href: '/fixtures', label: 'Fixtures' },
     { href: '/ai-recommendations', label: 'AI Recommendations' },
     { href: '/live-updates', label: 'Live Updates' },
-    { href: '/community', label: 'Community' },
   ];
 
   return (
